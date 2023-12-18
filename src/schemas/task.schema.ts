@@ -4,10 +4,10 @@ export const createTaskSchema = z.object({
     body: z.object({
         title: z.string({
             required_error: "Please, provide a title for the task."
-        }),
+        }).min(1),
         description: z.string({
             required_error: "Please, provide a description for the task."
-        }),
+        }).min(1),
         dueDate: z.date({
             required_error: "Please, provide a valid date for the task."
         }),
@@ -35,10 +35,10 @@ export const updateTaskSchema = z.object({
     body: z.object({
         title: z.string({
             required_error: "Please, provide a title for the task."
-        }),
+        }).min(1),
         description: z.string({
             required_error: "Please, provide a description for the task."
-        }),
+        }).min(1),
         dueDate: z.date({
             required_error: "Please, provide a valid date for the task."
         }),
