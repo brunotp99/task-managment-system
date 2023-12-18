@@ -77,7 +77,7 @@ export class TaskService implements TaskInterface {
             );
             
             if (taskStatus === undefined) {
-                throw InvalidEnumError(`[TASK_SERVICE_CREATE]: Invalid status string: ${task.status}`);
+                throw InvalidEnumError(`[TASK_SERVICE_GET]: Invalid status string: ${task.status}`);
             }
             
             return new Task({
@@ -118,7 +118,7 @@ export class TaskService implements TaskInterface {
             );
             
             if (taskStatus === undefined) {
-                throw InvalidEnumError(`[TASK_SERVICE_CREATE]: Invalid status string: ${status}`);
+                throw InvalidEnumError(`[TASK_SERVICE_UPDATE]: Invalid status string: ${status}`);
             }
             
             const task = await prismadb.task.update({

@@ -14,6 +14,8 @@ export class TaskController {
       this.taskService = taskService;
       this.create = this.create.bind(this);
       this.get = this.get.bind(this);
+      this.update = this.update.bind(this);
+      this.delete = this.delete.bind(this);
     }
 
     async create(req: Request, res: Response) {

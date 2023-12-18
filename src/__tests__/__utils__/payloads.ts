@@ -27,3 +27,13 @@ export const taskPayload = {
     
     userId: dummyUserId,
 }
+
+export const updatedTaskPayload = {
+    id: dummyTaskId,
+    title: "Updated_Test Task",
+    description: "Updated_A Test Description",
+    dueDate: getFutureDate(),
+    status: TaskStatus.Completed,
+    
+    userId: dummyUserId,
+}

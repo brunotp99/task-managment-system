@@ -92,7 +92,7 @@ export class TaskServiceMock implements TaskInterface {
             const taskIndex = this.tasks.findIndex((task) => task.id === taskId);
             
             if (taskIndex === -1) {
-                throw NotFoundError("[TASK_SERVICE_GET]: Couldn't find the requested user.");
+                throw NotFoundError("[TASK_SERVICE_UPDATE]: Couldn't find the requested user.");
             }
             
             const taskStatus = Object.values(TaskStatus).find(
@@ -100,7 +100,7 @@ export class TaskServiceMock implements TaskInterface {
             );
             
             if (taskStatus === undefined) {
-                throw InvalidEnumError(`[TASK_SERVICE_CREATE]: Invalid status string: ${status}`);
+                throw InvalidEnumError(`[TASK_SERVICE_UPDATE]: Invalid status string: ${status}`);
             }
             
         
@@ -132,7 +132,7 @@ export class TaskServiceMock implements TaskInterface {
             const taskIndex = this.tasks.findIndex((task) => task.id === taskId);
             
             if (taskIndex === -1) {
-                throw NotFoundError("[TASK_SERVICE_GET]: Couldn't find the requested user.");
+                throw NotFoundError("[TASK_SERVICE_DELETE]: Couldn't find the requested user.");
             }
             
             const beforeSize = this.tasks.length;

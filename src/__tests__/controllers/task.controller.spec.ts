@@ -16,12 +16,19 @@
             //It should return a 500 state and Zod Error
         //Given an invalid taskId
             //It should return a 404 state and NotFoundError
+    //Task Delete
+        //Given a valid taskId
+            //It should return a 200 state and a Boolean
+        //Given an invalid TaskId
+            //It should return a 404 state and a NotFoundError
+        //Given an invalid UUID
+            //It should return a 500 state and a Zod Error
 
 import { beforeEach, describe, expect, it, vitest } from "vitest";
 
 import { TaskController } from "@/controllers/task.controller";
 import { TaskServiceMock } from "@/mocks/task.mock";
-import { dummyTaskId, taskPayload } from "../__utils__/payloads";
+import { dummyTaskId, taskPayload, updatedTaskPayload } from "../__utils__/payloads";
 
 describe("Task Controller", () => {
 
@@ -163,6 +170,197 @@ describe("Task Controller", () => {
                 
             })
             
+        })
+    
+    });
+    
+    describe("Task Update", () => {
+    
+        describe("Given a valid taskId and Task Object", () => {
+        
+            it("Should return a '200' state and a Task Object", async () => {
+            
+                const dummyTask = await taskService.create(taskPayload);
+            
+                const req = {
+                    params: {
+                        taskId: dummyTask.id
+                    },
+                    body: updatedTaskPayload
+                };
+                
+                const res = {
+                    send: vitest.fn(),
+                    json: vitest.fn(),
+                    status: vitest.fn().mockReturnThis()
+                };
+                
+                //@ts-ignore
+                await taskController.update(req, res);
+                
+                expect(res.status).toHaveBeenCalledWith(200);
+                expect(res.send).not.toHaveBeenCalled();
+                
+                const data = res.json.mock.calls[0][0];
+                
+                expect(data.title).toBe(updatedTaskPayload.title)
+                expect(data.description).toBe(updatedTaskPayload.description)
+                expect(data.dueDate).toBe(updatedTaskPayload.dueDate)
+                expect(data.status).toBe(updatedTaskPayload.status)
+            
+            })
+        
+        });
+        
+        describe("Given a valid taskId and invalid Task Object", () => {
+        
+            it("Should return a '500' state and a Zod Error", async () => {
+            
+                const dummyTask = await taskService.create(taskPayload);
+            
+                const req = {
+                    params: {
+                        taskId: dummyTask.id
+                    },
+                    body: {
+                        ...updatedTaskPayload,
+                        status: "Not Exists"
+                    }
+                };
+                
+                const res = {
+                    send: vitest.fn(),
+                    json: vitest.fn(),
+                    status: vitest.fn().mockReturnThis()
+                };
+                
+                //@ts-ignore
+                await taskController.update(req, res);
+                
+                expect(res.status).toHaveBeenCalledWith(500);
+                expect(res.json).not.toHaveBeenCalled();
+                expect(res.send).toHaveBeenCalledWith(expect.stringContaining("Invalid enum value. Expected 'pending' | 'completed' | 'in progress', received 'Not Exists'"))
+   
+            })
+        
+        });
+        
+        describe("Given a invalid taskId and valid Task Object", () => {
+        
+            it("Should return a '404' state and a Not Found Error", async () => {
+            
+                const req = {
+                    params: {
+                        taskId: dummyTaskId
+                    },
+                    body: updatedTaskPayload
+                };
+                
+                const res = {
+                    send: vitest.fn(),
+                    json: vitest.fn(),
+                    status: vitest.fn().mockReturnThis()
+                };
+                
+                //@ts-ignore
+                await taskController.update(req, res);
+                
+                expect(res.status).toHaveBeenCalledWith(404);
+                expect(res.json).not.toHaveBeenCalled();
+                expect(res.send).toHaveBeenCalledWith(expect.stringContaining("[TASK_CONTROLLER_UPDATE]: \"[TASK_SERVICE_UPDATE]: Couldn't find the requested user.\""))
+   
+            })
+        
+        })
+    
+    });
+    
+    describe("Task Delete", () => {
+    
+        describe("Given a valid taskId", () => {
+        
+            it("Should return a '200' state and a Boolean", async () => {
+            
+                const dummyTask = await taskService.create(taskPayload);
+            
+                const req = {
+                    params: {
+                        taskId: dummyTask.id
+                    }
+                };
+                
+                const res = {
+                    send: vitest.fn(),
+                    json: vitest.fn(),
+                    status: vitest.fn().mockReturnThis()
+                };
+                
+                //@ts-ignore
+                await taskController.delete(req, res);
+                
+                expect(res.status).toHaveBeenCalledWith(200);
+                expect(res.send).not.toHaveBeenCalled();
+                
+                const data = res.json.mock.calls[0][0];
+                
+                expect(data).toBe(true)
+            
+            })
+        
+        });
+        
+        describe("Given an invalid taskId", () => {
+        
+            it("Should return a '404' state and a Not Found Error", async () => {
+            
+                const req = {
+                    params: {
+                        taskId: dummyTaskId
+                    }
+                };
+                
+                const res = {
+                    send: vitest.fn(),
+                    json: vitest.fn(),
+                    status: vitest.fn().mockReturnThis()
+                };
+                
+                //@ts-ignore
+                await taskController.delete(req, res);
+                
+                expect(res.status).toHaveBeenCalledWith(404);
+                expect(res.json).not.toHaveBeenCalled();
+                expect(res.send).toHaveBeenCalledWith("[TASK_CONTROLLER_DELETE]: \"[TASK_SERVICE_DELETE]: Couldn't find the requested user.\"")
+   
+            })
+        
+        });
+        
+        describe("Given a invalid UUID", () => {
+        
+            it("Should return a '500' state and a Zod Error", async () => {
+            
+                const req = {
+                    params: {
+                        taskId: "I-N-V-A-L-I-D"
+                    },
+                };
+                
+                const res = {
+                    send: vitest.fn(),
+                    json: vitest.fn(),
+                    status: vitest.fn().mockReturnThis()
+                };
+                
+                //@ts-ignore
+                await taskController.delete(req, res);
+                
+                expect(res.status).toHaveBeenCalledWith(500);
+                expect(res.json).not.toHaveBeenCalled();
+                expect(res.send).toHaveBeenCalledWith(expect.stringContaining("Please, provide a valid UUID."))
+   
+            })
+        
         })
     
     })
