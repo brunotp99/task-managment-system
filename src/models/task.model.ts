@@ -59,5 +59,10 @@ export class Task {
     get userId() : string {
         return this.props.userId
     }
-
+    
+    toJSON() {
+        const { id, title, description, dueDate, status, userId } = this.props;
+        return { id, title, description, dueDate, status, userId };
+    }
+    
 }

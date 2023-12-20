@@ -26,7 +26,7 @@ export class TaskController {
                 title, description, dueDate, status, userId
             });
             
-            return res.status(200).json(task);
+            return res.status(200).json(task.toJSON());
         } catch (error : any) {
             if (error instanceof UnexpectedError || error instanceof InvalidEnumError) {
                 const err = (error as ErrorInterface)
@@ -42,7 +42,7 @@ export class TaskController {
             
             const task = await this.taskService.get(taskId);
             
-            return res.status(200).json(task);
+            return res.status(200).json(task.toJSON());
         } catch (error : any) {
             if (error instanceof NotFoundError || error instanceof InvalidEnumError) {
                 const err = (error as ErrorInterface)
@@ -61,7 +61,7 @@ export class TaskController {
                 title, description, dueDate, status, userId
             });
             
-            return res.status(200).json(task);
+            return res.status(200).json(task.toJSON());
         } catch (error : any) {
             if (error instanceof NotFoundError || error instanceof InvalidEnumError) {
                 const err = (error as ErrorInterface)

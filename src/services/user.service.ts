@@ -103,7 +103,7 @@ export class UserService implements UserInterface {
             });
             
             if (!user) {
-                throw Error('[USER_SERVICE_GETONE]: User not found');
+                throw NotFoundError('[USER_SERVICE_GETONE]: User not found');
             }
             
             return new User(user);

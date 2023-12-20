@@ -162,7 +162,7 @@ export class TaskService implements TaskInterface {
             })
             
             if (!taskExists) {
-                throw NotFoundError("[TASK_SERVICE_DELETE]: Couldn't find the requested user.");
+                throw NotFoundError("[TASK_SERVICE_DELETE]: Couldn't find the requested task.");
             }
             
             const task = await prismadb.task.delete({

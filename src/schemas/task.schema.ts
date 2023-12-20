@@ -8,7 +8,7 @@ export const createTaskSchema = z.object({
         description: z.string({
             required_error: "Please, provide a description for the task."
         }).min(1),
-        dueDate: z.date({
+        dueDate: z.coerce.date({
             required_error: "Please, provide a valid date for the task."
         }),
         status: z.enum(["pending", "completed", "in progress"]),
@@ -39,7 +39,7 @@ export const updateTaskSchema = z.object({
         description: z.string({
             required_error: "Please, provide a description for the task."
         }).min(1),
-        dueDate: z.date({
+        dueDate: z.coerce.date({
             required_error: "Please, provide a valid date for the task."
         }),
         status: z.enum(["pending", "completed", "in progress"]),
